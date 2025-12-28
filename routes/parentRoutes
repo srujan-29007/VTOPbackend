@@ -1,0 +1,16 @@
+const express = require('express');
+const router = express.Router();
+const parentController = require('../controllers/parentController');
+const { authenticateUser, authorizeRoles } = require('../middleware/authMiddleware');
+
+router.use(authenticateUser, authorizeRoles('parent'));
+
+router.get('/my-child', 
+    parentController.getChildPerformance
+);
+
+router.get('/child-timetable', 
+    parentController.getChildTimetable
+);
+
+module.exports = router;

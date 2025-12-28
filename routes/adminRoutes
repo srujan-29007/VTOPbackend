@@ -1,0 +1,24 @@
+const express = require('express');
+const router = express.Router();
+const adminController = require('../controllers/adminController');
+const { authenticateUser, authorizeRoles } = require('../middleware/authMiddleware');
+
+router.use(authenticateUser, authorizeRoles('admin'));
+
+router.post('/create-user',   
+    adminController.createUser 
+);
+
+router.post('/handle-reeval', 
+    adminController.handleReevaluation
+);
+
+router.post('/create-course', 
+    adminController.createCourse
+);
+
+router.post('/open-class', 
+    adminController.openClass
+);
+
+module.exports = router;
