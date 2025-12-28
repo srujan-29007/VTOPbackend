@@ -27,7 +27,7 @@ A comprehensive backend system for a university management portal inspired by VT
 
 1.  **Clone the Repository**
     ```bash
-    git clone [https://github.com/srujan-29007/VTOPbackend.git](https://github.com/srujan-29007/VTOPbackend.git)
+    git clone https://github.com/srujan-29007/VTOPbackend.git
     cd VTOPBACKEND
     ```
 
