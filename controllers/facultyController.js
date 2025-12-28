@@ -1,33 +1,5 @@
 const db = require('../config/db');
 
-exports.getClassStudents = async (req, res) => {
-    const facultyId = req.user.id;
-    const { classId } = req.params;
-
-    try {
-        const [classes] = await db.query(
-            'SELECT * FROM classes WHERE id = ? AND faculty_id = ?', 
-            [classId, facultyId]
-        );
-
-        if (classes.length === 0) {
-            return res.status(403).json({ message: 'Access Denied: You do not teach this class.' });
-        }
-
-        const [students] = await db.query(
-            `SELECT u.id, u.full_name, u.username, e.marks, e.grade 
-             FROM enrollments e
-             JOIN users u ON e.student_id = u.id
-             WHERE e.class_id = ?`,
-            [classId]
-        );
-
-        res.json(students);
-    } catch (error) {
-        res.status(500).json({ message: 'Server Error' });
-    }
-};
-
 const calculateGrade = (marks) => {
     if (marks >= 90) return 'S';
     if (marks >= 80) return 'A';

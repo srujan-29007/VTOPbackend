@@ -6,9 +6,6 @@ const upload = require('../config/uploadConfig');
 
 router.use(authenticateUser, authorizeRoles('faculty'));
 
-router.get('/students/:classId', 
-    facultyController.getClassStudents
-);
 
 router.post('/upload-marks', 
     facultyController.uploadMarks
