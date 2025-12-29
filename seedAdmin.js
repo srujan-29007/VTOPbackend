@@ -3,25 +3,26 @@ const db = require('./config/db');
 const bcrypt = require('bcryptjs');
 
 const seedSuperAdmin = async () => {
-    const connection = await db.getConnection();
     
     try {
-        console.log("Starting Seed Process...");
-
         const username = 'superadmin';
         const plainPassword = 'admin123';
         const role = 'admin';
         const fullName = 'System Administrator';
 
-        const [existing] = await connection.query('SELECT * FROM users WHERE username = ?', [username]);
+        const [existing] = await db.query(
+            'SELECT * FROM users WHERE username = ?', 
+            [username]
+        );
+
         if (existing.length > 0) {
-            console.log("⚠️  Super Admin already exists. Skipping.");
-            return;
+            console.log("Super Admin already exists. Skipping.");
+            return; 
         }
 
         const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
-        await connection.query(
+        await db.query(
             'INSERT INTO users (username, password, role, full_name) VALUES (?, ?, ?, ?)',
             [username, hashedPassword, role, fullName]
         );
@@ -33,7 +34,6 @@ const seedSuperAdmin = async () => {
     } catch (error) {
         console.error("Seed Failed:", error);
     } finally {
-        connection.release();
         process.exit();
     }
 };
